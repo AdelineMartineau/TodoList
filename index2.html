@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <title>TodoList 2</title>
+        </head>
+    <body>
+        <div id="app">
+            <div id="add_todo">
+                <div id="title">Todo List</div>
+                <input class="input" v-model="newTodo" type="text" placeholder="Ajouter une tâche" maxlength="34"> 
+                <button id="button_add" @click="addTodo()"><i class="uil uil-plus-circle icon_add"></i></button>
+            </div>
+
+            <div id="list_todo">
+                <p class="title_list">Todo List</p>
+                <ul v-if="todoList.length > 0">
+                    <div class="todo" v-for="(todo, index) of todoList" v-bind:key="todo.id" v-bind:title="todo.title">
+                        <span :class="todo.isDone?'done':'notDone'"> <div id="todo_title">{{ todo.title }}</div> </span> 
+                        <div class="buttons">
+                            <button class="btn" @click="doneTask(todo)"><div class="done_notdone">{{todo.isDone? '✓':'X'}}</div></button> 
+                            <button class="btn" @click="deleteTodo(index)"><i class="uil uil-trash-alt icon_trash"></i></button>
+                        </div>
+                    </div>
+                </ul>
+                <p v-else>Aucune tâche en cours</p>                
+            </div>
+
+        </div>
+    </body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script>    
+
+    var app =new Vue({
+        el: '#app',
+        data : {
+            newTodo : '',
+            todoList:[
+                {
+                    title: 'Faire la vaisselle',
+                    isDone: true,
+                },
+                {
+                    title: 'Sortir les poubelles',
+                    isDone: false,
+                }
+            ],
+        },    
+        methods: {
+            addTodo: function(){
+                if (this.newTodo.length > 0)
+                this.todoList.push({isDone: false, title: this.newTodo});
+                this.newTodo = '';
+            },
+
+            deleteTodo: function(index){
+                this.todoList.splice(index, 1);
+            },
+
+            doneTask: function(todo){
+                return todo.isDone = !todo.isDone
+            },
+
+        } 
+    })
+</script>
